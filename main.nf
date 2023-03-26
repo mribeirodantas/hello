@@ -10,6 +10,9 @@ process sayHello {
     """
     echo '$x world!'
     """
+  stub:
+    """
+    """
 }
 
 workflow {
