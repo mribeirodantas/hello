@@ -1,20 +1,30 @@
 #!/usr/bin/env nextflow
-nextflow.enable.dsl=2 
+
+params.greetings = 'Bonjour,Ciao,Hello,Hola'
 
 process sayHello {
-  input: 
-    val x
+  input:
+    val greeting_str
+
   output:
     stdout
+
   script:
     """
-    echo '$x world!'
+    echo $greeting_str world!
     """
+
   stub:
     """
+    echo Hello world!
     """
 }
 
 workflow {
-  Channel.of('Bonjour', 'Ciao', 'Hello', 'Hola') | sayHello | view
+  Channel
+    .of(params.greetings)
+    .splitCsv()
+    .flatten()
+    | sayHello
+    | view
 }
